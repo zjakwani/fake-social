@@ -11,13 +11,16 @@ interface Company {
     bs: string
 }
 
-export default interface User {
+export interface User {
     id: number,
     name: string,
     username: string,
     email: string,
-    address?: Address,
-    phone?: string,
-    website?: string,
-    company?: Company
+}
+
+export interface UserProfile extends User {
+    address: Address,
+    phone: string,
+    website: string,
+    company: Company
 }

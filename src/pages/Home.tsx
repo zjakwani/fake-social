@@ -1,9 +1,9 @@
 import { AxiosResponse } from "axios";
 import { ReactElement, useEffect, useState } from "react";
-import User from "../models/User"
+import { User } from "../models/User"
 import axios from "axios"
 
-const usersUrl = "https://jsonplaceholder.typicode.com/users/"
+const usersUrl: string = "https://jsonplaceholder.typicode.com/users/"
 
 function Home(): ReactElement {
   const [users, setUsers] = useState<User[]>([])
@@ -31,13 +31,12 @@ function Home(): ReactElement {
       {users.map((user: User) => {
         return(
           <div key={user.id}>
-            <h2>{user.name}</h2>
+            <a href={"/profile/" + user.id}>{user.name}</a>
             <h3>{user.username}</h3>
             <h4>{user.email}</h4>
           </div>
         )
       })}
-      <button onClick={p}>Test</button>
     </div> 
     );
   };
