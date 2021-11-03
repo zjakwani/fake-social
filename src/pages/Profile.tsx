@@ -14,41 +14,56 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Button from '@mui/material/Button'
 import Grid from "@mui/material/Grid"
 
+// Profile page for a given Profile ID
 function Profile(): ReactElement {
+
+  // Gets id from the Router parameters to display corresponding data
+  const { id } = useParams<RouteParam>();
+
+  // Hooks for the current user and lists of correlated posts and albums
   const [user, setUser] = useState<UserProfile | null>(null)
   const [posts, setPosts] = useState<Post[]>([])
   const [albums, setAlbums] = useState<Album[]>([])
-  const { id } = useParams<RouteParam>();
+  
+  // API endpoints using ID from router
   const profileUrl: string = "https://jsonplaceholder.typicode.com/users/" + id
   const postsUrl: string = profileUrl + "/posts"
   const albumsUrl: string = profileUrl + "/albums"
 
+  // Axios used to fetch Post array in JSON  and map to custom interface
   function fetchPosts() {
     axios.get(postsUrl)
     .then((response: AxiosResponse) => {
+      // Maps and casts to defined model
       setPosts(response.data.map((item:any) => ({
         id: item.id,
         title: item.title,
       } as Post)))
+      // logs any errors
     }).catch((error) => {
       console.log("Error:", error)
     })
   }
 
+  // Axios used to fetch Album array in JSON and map to custom interface
   function fetchAlbums() {
     axios.get(albumsUrl)
     .then((response: AxiosResponse) => {
+      // Maps and casts to defined model
       setAlbums(response.data.map((item:any) => ({
         id: item.id,
         title: item.title,
       } as Album)))
+      // logs any errors 
     }).catch((error) => {
       console.log("Error:", error)
     })
   }
 
+  // Axios get request fetches the unique profile by id
   function fetchProfile() {
     axios.get(profileUrl)
+    // Maps JSON to predefined Profile model
     .then((response: AxiosResponse) => {
       setUser({
         id: response.data.id,
@@ -69,41 +84,67 @@ function Profile(): ReactElement {
           bs: response.data.company.bs,
         } as Company,
       } as UserProfile)
+      // logs any erorrs
     }).catch((error) => {
       console.log("Error:", error)
     })
   }
-
+ 
+  // Triggers once on page load
   useEffect(() => {
     fetchProfile()
     fetchPosts()
     fetchAlbums()
-  })
+  },[])
 
     return ( 
     <div>
 
+      {/* User heading information */}
       {user && (
         <div>
-          <h2>{user.name}</h2>
-          <h3>{user.phone}</h3>
+          <Typography variant="h2" component="div" sx={{ flexGrow: 1 }}>
+              {user.name}
+          </Typography>
+          <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
+              Phone number: {user.phone}
+          </Typography>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+              website: {user.website}
+          </Typography>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+              Company: {user.company.name}
+          </Typography>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+              Company catch phrase: {user.company.catchPhrase}
+          </Typography>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+              Address: {user.address.street + " " + user.address.suite + " " + user.address.city + " " + user.address.zipcode}
+          </Typography>
         </div>
       )}
       
+      {/* Displays two collapsible items of posts and albums */}
+
       <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Posts</Typography>
+            <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
+              Posts
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Grid container>
+            <Grid container spacing={4}>
+
+              {/* posts contain a link to the post page to see comments */}
+
               {posts.map((post: Post) => {
                 return(
                   <Grid item>
-                    <Button variant="contained" href={"/posts/" + post.id}>{post.title}</Button>
+                    <Button variant="outlined" href={"/posts/" + post.id}>{post.title}</Button>
                   </Grid>
                 )
               })}
@@ -117,14 +158,19 @@ function Profile(): ReactElement {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            <Typography>Albums</Typography>
+            <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
+              Albums
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Grid container>
+            <Grid container spacing={4}>
+
+              {/* albums contain a link to the album page for viewing*/}
+
               {albums.map((album: Album) => {
                 return(
                   <Grid item>
-                    <Button variant="contained" href={"/albums/" + album.id}>{album.title}</Button>
+                    <Button variant="outlined" href={"/albums/" + album.id}>{album.title}</Button>
                   </Grid>
                 )
               })}

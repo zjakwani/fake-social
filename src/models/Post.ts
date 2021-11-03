@@ -5,6 +5,5 @@ export interface Post {
 
 export interface Comment {
     id: number,
-    name: string,
     body: string,
 }

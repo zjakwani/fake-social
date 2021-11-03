@@ -1,4 +1,3 @@
-import React from 'react';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import AlbumPage from './pages/AlbumPage';
@@ -14,6 +13,8 @@ import {
 function App() {
   return (
     <div className="App">
+      {/* switch tag gives url definitions with an id parameter included */}
+      {/* the components are functions defined in pages folder */}
       <Router>
         <Switch>
           <Route path="/" exact component={Home}></Route>
