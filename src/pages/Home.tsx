@@ -8,10 +8,6 @@ const usersUrl: string = "https://jsonplaceholder.typicode.com/users/"
 function Home(): ReactElement {
   const [users, setUsers] = useState<User[]>([])
 
-  function p() {
-    console.log(users)
-  }
-
   useEffect(() => {
     axios.get(usersUrl)
     .then((response: AxiosResponse) => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import Album from './pages/Album';
-import Posts from './pages/Posts';
+import AlbumPage from './pages/AlbumPage';
+import PostPage from './pages/PostPage';
 
 // Import react router for dynamic page functionality
 import {
@@ -18,8 +18,8 @@ function App() {
         <Switch>
           <Route path="/" exact component={Home}></Route>
           <Route path="/profile/:id" exact component={Profile}></Route>
-          <Route path="/album/:id" exact component={Album}></Route>
-          <Route path="/posts/:id" exact component={Posts}></Route>
+          <Route path="/albums/:id" exact component={AlbumPage}></Route>
+          <Route path="/posts/:id" exact component={PostPage}></Route>
         </Switch>
       </Router>
     </div>
