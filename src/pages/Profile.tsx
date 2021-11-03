@@ -6,7 +6,13 @@ import { Album } from "../models/Album"
 import axios from "axios"
 import { useParams } from "react-router-dom"
 import { RouteParam } from "../models/RouteParam"
-
+import Accordion from '@mui/material/Accordion'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import Typography from '@mui/material/Typography'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import Button from '@mui/material/Button'
+import Grid from "@mui/material/Grid"
 
 function Profile(): ReactElement {
   const [user, setUser] = useState<UserProfile | null>(null)
@@ -76,27 +82,58 @@ function Profile(): ReactElement {
 
     return ( 
     <div>
+
       {user && (
         <div>
           <h2>{user.name}</h2>
           <h3>{user.phone}</h3>
         </div>
       )}
-      {posts.map((post: Post) => {
-        return(
-          <div key={post.id}>
-            <a href={"/posts/" + post.id}>{post.title}</a>
-          </div>
-        )
-      })}
-      {albums.map((album: Album) => {
-        return(
-          <div key={album.id}>
-            <a href={"/albums/" + album.id}>{album.title}</a>
-          </div>
-        )
-      })}
-    </div> 
+      
+      <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>Posts</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container>
+              {posts.map((post: Post) => {
+                return(
+                  <Grid item>
+                    <Button variant="contained" href={"/posts/" + post.id}>{post.title}</Button>
+                  </Grid>
+                )
+              })}
+            </Grid> 
+          </AccordionDetails>
+        </Accordion>
+
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>Albums</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container>
+              {albums.map((album: Album) => {
+                return(
+                  <Grid item>
+                    <Button variant="contained" href={"/albums/" + album.id}>{album.title}</Button>
+                  </Grid>
+                )
+              })}
+            </Grid> 
+          </AccordionDetails>
+        </Accordion>
+
+       
+    </div>
     );
   };
   

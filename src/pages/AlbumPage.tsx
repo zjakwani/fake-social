@@ -28,7 +28,7 @@ function AlbumPage(): ReactElement {
   const slider = (photos.length > 0)  ?
     <AwesomeSlider>
     {photos.map((album: Album) => {
-        return <div><img src={album.url}/></div>
+        return <div><img src={album.url} alt="Link invalid"/></div>
     })}
     </AwesomeSlider>
     : null
